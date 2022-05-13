@@ -10,5 +10,5 @@ chmod +x chrome_headless_lambda_layer.sh<br>
 - or upload zip file present in AWSLayers\chrome_headless.zip as AWS Layer for python 3.7
 
 Use following lambda function 
-https://github.com/vinodvidhole/yahoo-finance-scraper/blob/main/lambda_function.py
+https://github.com/vinodvidhole/automate-web-scraping-aws-lambda/blob/main/lambda_function.py
 
