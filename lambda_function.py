@@ -80,33 +80,7 @@ def upload_csv_s3(data_dictionary,s3_bucket_name,csv_file_name):
     
     # placing file to S3, file_buff.getvalue() is the CSV body for the file
     client.put_object(Body=file_buff.getvalue(), Bucket=s3_bucket_name, Key=csv_file_name)
-
     print('Done uploading to S3')
-            
-def send_email(body):
-    try:
-        server_ssl = smtplib.SMTP_SSL('smtp.gmail.com', 465)
-        server_ssl.ehlo()   
-    
-        SENDER_EMAIL = os.environ['SENDER_EMAIL'] 
-        RECEIVER_EMAIL = os.environ['RECEIVER_EMAIL']
-        SENDER_PASSWORD = os.environ['PASSWORD']
-        
-        subject = 'Yahoo! Finance web scraping'
-    
-        email_text = f"""
-        From: {SENDER_EMAIL}
-        To: {RECEIVER_EMAIL}
-        Subject: {subject}
-        {body}
-        """
-    
-        server_ssl.login(SENDER_EMAIL, os.environ['PASSWORD'])
-        server_ssl.sendmail(SENDER_EMAIL, RECEIVER_EMAIL, email_text)
-        server_ssl.close()
-        
-    except:
-        print('Something went wrong...')
 
 def lambda_handler(event, context):
     instance_ = WebDriver()
