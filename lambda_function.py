@@ -29,6 +29,11 @@ class WebDriver(object):
     def get(self):
         driver = Chrome('/opt/chromedriver', options=self.options)
         return driver
+        
+def get_tickers(driver):
+    TABLE_CLASS = "W(100%)"  
+    tablerows = len(driver.find_elements(By.XPATH, value="//table[@class= '{}']/tbody/tr".format(TABLE_CLASS)))
+    return tablerows
 
 def parse_ticker(rownum, table_driver):
     Symbol = table_driver.find_element(By.XPATH, value="//tr[{}]/td[1]".format(rownum)).text
@@ -50,11 +55,6 @@ def parse_ticker(rownum, table_driver):
     'Volume': Volume,
     'MarketCap': MarketCap
     }
-
-def get_tickers(driver):
-    TABLE_CLASS = "W(100%)"  
-    tablerows = len(driver.find_elements(By.XPATH, value="//table[@class= '{}']/tbody/tr".format(TABLE_CLASS)))
-    return tablerows
 
 def upload_csv_s3(data_dictionary,s3_bucket_name,csv_file_name):
     data_dict = data_dictionary
@@ -80,8 +80,6 @@ def lambda_handler(event, context):
     instance_ = WebDriver()
     driver = instance_.get()
     driver.get(YAHOO_FINANCE_URL)
-
-    table_data = driver.title
     print('Fetching the page')
     table_rows = get_tickers(driver)
     print(f'Found {table_rows} Tickers')
