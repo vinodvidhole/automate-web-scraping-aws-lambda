@@ -1,17 +1,11 @@
 try:
-    import json
     from selenium.webdriver import Chrome
     from selenium.webdriver.chrome.options import Options
-    import os
-    import shutil
-    import uuid
-    import boto3
-    from datetime import datetime
     from selenium.webdriver.common.by import By
-    import smtplib
-    import time
+    import boto3
     import csv
     from io import StringIO
+    from datetime import datetime
     print("All Modules are ok ...")
 
 except Exception as e:
@@ -82,31 +76,6 @@ def upload_csv_s3(data_dictionary,s3_bucket_name,csv_file_name):
     client.put_object(Body=file_buff.getvalue(), Bucket=s3_bucket_name, Key=csv_file_name)
 
     print('Done uploading to S3')
-            
-def send_email(body):
-    try:
-        server_ssl = smtplib.SMTP_SSL('smtp.gmail.com', 465)
-        server_ssl.ehlo()   
-    
-        SENDER_EMAIL = os.environ['SENDER_EMAIL'] 
-        RECEIVER_EMAIL = os.environ['RECEIVER_EMAIL']
-        SENDER_PASSWORD = os.environ['PASSWORD']
-        
-        subject = 'Yahoo! Finance web scraping'
-    
-        email_text = f"""
-        From: {SENDER_EMAIL}
-        To: {RECEIVER_EMAIL}
-        Subject: {subject}
-        {body}
-        """
-    
-        server_ssl.login(SENDER_EMAIL, os.environ['PASSWORD'])
-        server_ssl.sendmail(SENDER_EMAIL, RECEIVER_EMAIL, email_text)
-        server_ssl.close()
-        
-    except:
-        print('Something went wrong...')
 
 def lambda_handler(event, context):
     instance_ = WebDriver()
@@ -127,10 +96,6 @@ def lambda_handler(event, context):
     dt_string = datetime.now().strftime("%Y-%m-%d_%H%M")
     csv_file_name =  'trending-tickers_'+dt_string +'.csv'
     upload_csv_s3(table_data,'aws-lambda-scraping',csv_file_name)
-
-    #Sample code for sending email 
-    #email_body = json.dumps(table_data)
-    #send_email(email_body)
 
     response = {
         "Rows": table_rows,
