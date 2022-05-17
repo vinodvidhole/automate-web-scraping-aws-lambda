@@ -74,7 +74,6 @@ def upload_csv_s3(data_dictionary,s3_bucket_name,csv_file_name):
     
     # placing file to S3, file_buff.getvalue() is the CSV body for the file
     client.put_object(Body=file_buff.getvalue(), Bucket=s3_bucket_name, Key=csv_file_name)
-
     print('Done uploading to S3')
 
 def lambda_handler(event, context):
