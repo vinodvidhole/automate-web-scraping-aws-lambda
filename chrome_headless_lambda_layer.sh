@@ -27,3 +27,5 @@ unzip headless-chromium.zip
 rm headless-chromium.zip
 
 zip -r ../../chrome_headless.zip *
+
+
