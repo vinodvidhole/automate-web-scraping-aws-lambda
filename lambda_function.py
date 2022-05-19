@@ -82,7 +82,7 @@ def lambda_handler(event, context):
     driver.get(YAHOO_FINANCE_URL)
     print('Fetching the page')
     table_rows = get_tickers(driver)
-    print(f'Found {table_rows} Tickers')
+    print('Found {} Tickers'.format(table_rows))
     print('Parsing Trending tickers')
     table_data = [parse_ticker(i, driver) for i in range (1, table_rows + 1)]
     
@@ -92,7 +92,7 @@ def lambda_handler(event, context):
     #create csv and upload in s3 bucket
     dt_string = datetime.now().strftime("%Y-%m-%d_%H%M")
     csv_file_name =  'trending-tickers_'+dt_string +'.csv'
-    upload_csv_s3(table_data,'aws-lambda-scraping',csv_file_name)
+    upload_csv_s3(table_data,'automate-web-scraping',csv_file_name)
 
     response = {
         "Rows": table_rows,
