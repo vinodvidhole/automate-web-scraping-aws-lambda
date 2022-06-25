@@ -1,6 +1,9 @@
 
 ## Web Scraping Yahoo! Finance and AWS Lambda Automation Implementation 
 
+checkout my blog
+https://medium.com/jovianml/automate-web-scraping-using-python-aws-lambda-amazon-s3-amazon-eventbridge-cloudwatch-c4c982c35fa7
+
 AWS Layer creation 
 
 - run following command on docker whcih will create chrome_headless.zip and then upload it as AWS Layer for python 3.7<br>
